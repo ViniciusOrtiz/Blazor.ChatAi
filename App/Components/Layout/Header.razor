@@ -1,0 +1,36 @@
+﻿<div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="bg-indigo-700 text-white transition-all duration-300 flex-shrink-0"
+           style="width: @(IsSidebarOpen ? "250px" : "60px")">
+        <div class="flex flex-col h-full">
+            <!-- Toggle Button -->
+            <button class="p-4 focus:outline-none w-full text-left" @onclick="ToggleSidebar">
+                ☰
+            </button>
+
+            <!-- Sidebar Menu -->
+            <nav class="flex flex-col space-y-2 mt-4 px-4">
+                <a onclick="@(() => NavigateToPage("/"))"
+                   class="cursor-pointer py-2 px-3 rounded-md transition hover:bg-indigo-600 @GetActiveClass("chat")">
+                    💬 Chat
+                </a>
+                <a onclick="@(() => NavigateToPage("/files"))"
+                   class="cursor-pointer py-2 px-3 rounded-md transition hover:bg-indigo-600 @GetActiveClass("files")">
+                    📂 Files
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex flex-col flex-grow transition-all duration-300"
+         style="width: @(IsSidebarOpen ? "calc(100% - 250px)" : "calc(100% - 60px)")">
+        <!-- Injected Content (Child Content) -->
+        <main class="overflow-hidden">
+            @ChildContent
+        </main>
+    </div>
+</div>
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

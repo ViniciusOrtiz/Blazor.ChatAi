@@ -12,14 +12,7 @@ public partial class Home : ComponentBase
     [Inject] private IAiAskQuestionUseCase AiAskQuestionUseCase { get; set; } = null!;
     [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
 
-    private List<MessageInputDto> Messages { get; set; } = new()
-    {
-        new MessageInputDto
-        {
-            Text = "Hello, I am the system AI. How can I assist you?",
-            IsUser = false
-        }
-    };
+    private List<MessageInputDto> Messages { get; set; } = [];
 
     private string UserInput { get; set; } = string.Empty;
     private bool IsLoading { get; set; }

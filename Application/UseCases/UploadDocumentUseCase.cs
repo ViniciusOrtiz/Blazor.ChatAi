@@ -22,6 +22,12 @@ public class UploadDocumentUseCase : IUploadDocumentUseCase
         _aiGateway = aiGateway;
     }
 
+    /// <summary>
+    /// Executes the document upload process by extracting text from the provided file, generating embeddings,
+    /// and storing the data in the repository.
+    /// </summary>
+    /// <param name="file">The file from which to extract text and generate embeddings.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task ExecuteAsync(IBrowserFile file)
     {
         var text = await _fileService.ExtractTextFromFileAsync(file);

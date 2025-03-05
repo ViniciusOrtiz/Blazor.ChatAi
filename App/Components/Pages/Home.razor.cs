@@ -18,7 +18,7 @@ public partial class Home : ComponentBase
     private bool IsLoading { get; set; }
 
     /// <summary>
-    /// Sends the user input message and generates a mock AI response. Updates the message list and UI state.
+    /// Sends the user input message and generates a AI response. Updates the message list and UI state.
     /// </summary>
     private async Task SendMessage()
     {
@@ -73,14 +73,11 @@ public partial class Home : ComponentBase
 
         try
         {
-            var file = e.File;
-            var fileSize = file.Size;
-
-            await UploadDocumentUseCase.ExecuteAsync(file);
+            var fileModel = await UploadDocumentUseCase.ExecuteAsync(e.File);
 
             Messages.Add(new MessageInputDto
             {
-                Text = $"Uploaded: {file.Name} ({fileSize / 1024} KB)",
+                Text = $"Uploaded: {fileModel.Name} ({fileModel.Size / 1024} KB)",
                 IsUser = true
             });
         }

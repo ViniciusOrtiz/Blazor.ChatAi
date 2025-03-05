@@ -1,0 +1,35 @@
+﻿@page "/files"
+
+<div class="p-6">
+    <h1 class="text-2xl font-semibold mb-4">📂 Attached Files</h1>
+    <table class="w-full border-collapse border border-gray-300 shadow-md">
+        <thead class="bg-indigo-600 text-white">
+        <tr>
+            <th class="p-3 border">File Name</th>
+            <th class="p-3 border">Size (KB)</th>
+            <th class="p-3 border">Upload Date</th>
+            <th class="p-3 border">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var file in _filesList)
+        {
+            <tr class="hover:bg-gray-100 transition">
+                <td class="p-3 border">@file.Name</td>
+                <td class="p-3 border">@file.Size.ToString("N2")</td>
+                <td class="p-3 border">@file.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td class="p-3 border text-center">
+                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600"
+                            @onclick="() => DownloadFile(file.Id)">
+                        ⬇ Download
+                    </button>
+                    <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 ml-2"
+                            @onclick="() => DeleteFile(file.Id)">
+                        ❌ Delete
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

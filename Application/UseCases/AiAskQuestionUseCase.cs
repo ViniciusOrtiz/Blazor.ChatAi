@@ -3,7 +3,7 @@ using Application.Contracts.UseCases;
 
 namespace Application.UseCases;
 
-public class AiAskQuestionUseCase : IAiAskQuestionUseCase
+public sealed class AiAskQuestionUseCase : IAiAskQuestionUseCase
 {
     private readonly IAiGateway _aiGateway;
 

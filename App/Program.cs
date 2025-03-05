@@ -1,3 +1,4 @@
+using Api.Extensions;
 using Application;
 using Data;
 using Infrastructure;
@@ -36,4 +37,5 @@ app.MapRazorComponents<App.Components.App>()
 
 app.MapControllers();
 
+app.MigrateDatabase();
 app.Run();

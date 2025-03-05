@@ -5,13 +5,17 @@ using OpenAI.Chat;
 
 namespace Infrastructure.Gateways;
 
-public class OpenAiGateway(
-    OpenAIClient openAiClient,
-    IDocumentsTool documentsTool
-    ) : IAiGateway
+public sealed class OpenAiGateway : IAiGateway
 {
-    private readonly OpenAIClient _openAiClient = openAiClient;
-    private readonly IDocumentsTool _documentsTool = documentsTool;
+    private readonly OpenAIClient _openAiClient;
+    private readonly IDocumentsTool _documentsTool;
+
+    public OpenAiGateway(OpenAIClient openAiClient,
+        IDocumentsTool documentsTool)
+    {
+        _openAiClient = openAiClient;
+        _documentsTool = documentsTool;
+    }
 
     public async Task<string> GetAnswerFromAI(string question)
     {

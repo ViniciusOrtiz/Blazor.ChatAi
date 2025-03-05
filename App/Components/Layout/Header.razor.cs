@@ -6,11 +6,11 @@ public partial class Header : ComponentBase
 {
     [Inject] private NavigationManager Navigation { get; set; } = null!;
 
-    private bool IsSidebarOpen = false;
+    private bool _isSidebarOpen = false;
 
     private void ToggleSidebar()
     {
-        IsSidebarOpen = !IsSidebarOpen;
+        _isSidebarOpen = !_isSidebarOpen;
     }
 
     private void NavigateToPage(string url)
@@ -20,7 +20,7 @@ public partial class Header : ComponentBase
 
     private string GetActiveClass(string page)
     {
-        return Navigation.Uri.ToLower().Contains(page) 
+        return Navigation.Uri.Contains(page, StringComparison.CurrentCultureIgnoreCase)
             ? "bg-indigo-800 font-semibold" 
             : "hover:text-gray-200";
     }

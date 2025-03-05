@@ -3,20 +3,39 @@
     <aside class="bg-indigo-700 text-white transition-all duration-300 flex-shrink-0"
            style="width: @(IsSidebarOpen ? "250px" : "60px")">
         <div class="flex flex-col h-full">
-            <!-- Toggle Button -->
-            <button class="p-4 focus:outline-none w-full text-left" @onclick="ToggleSidebar">
-                ☰
-            </button>
+            <!-- Sidebar Header -->
+            <div class="flex items-center p-4 justify-between">
+
+                <!-- Show App Name Only When Expanded -->
+                @if (IsSidebarOpen)
+                {
+                    <span class="ml-3 text-lg font-semibold">🔥 Blazor ChatIA</span>
+                }
+                
+                <!-- Toggle Button -->
+                <button class="focus:outline-none text-xl" @onclick="ToggleSidebar">
+                    ☰
+                </button>
+
+            </div>
 
             <!-- Sidebar Menu -->
-            <nav class="flex flex-col space-y-2 mt-4 px-4">
+            <nav class="flex flex-col space-y-2 mt-4 px-2">
                 <a onclick="@(() => NavigateToPage("/"))"
-                   class="cursor-pointer py-2 px-3 rounded-md transition hover:bg-indigo-600 @GetActiveClass("chat")">
-                    💬 Chat
+                   class="cursor-pointer flex items-center py-2 px-3 rounded-md transition hover:bg-indigo-600 @GetActiveClass("chat")">
+                    <span class="text-xl">💬</span>
+                    @if (IsSidebarOpen)
+                    {
+                        <span class="ml-3">Chat</span>
+                    }
                 </a>
                 <a onclick="@(() => NavigateToPage("/files"))"
-                   class="cursor-pointer py-2 px-3 rounded-md transition hover:bg-indigo-600 @GetActiveClass("files")">
-                    📂 Files
+                   class="cursor-pointer flex items-center py-2 px-3 rounded-md transition hover:bg-indigo-600 @GetActiveClass("files")">
+                    <span class="text-xl">📂</span>
+                    @if (IsSidebarOpen)
+                    {
+                        <span class="ml-3">Files</span>
+                    }
                 </a>
             </nav>
         </div>
@@ -31,6 +50,7 @@
         </main>
     </div>
 </div>
+
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
 }

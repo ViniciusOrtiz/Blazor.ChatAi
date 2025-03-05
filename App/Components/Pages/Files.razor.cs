@@ -9,16 +9,19 @@ public partial class Files : ComponentBase
 {
     private readonly IGetAllFilesUseCase _getAllFilesUseCase;
     private readonly IFileGetContentUseCase _fileGetContentUseCase;
+    private readonly IFileDeleteUseCase _fileDeleteUseCase;
     private IEnumerable<DocumentModel> _filesList = [];
 
     [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
 
     public Files(
         IGetAllFilesUseCase getAllFilesUseCase,
-        IFileGetContentUseCase fileGetContentUseCase)
+        IFileGetContentUseCase fileGetContentUseCase,
+        IFileDeleteUseCase fileDeleteUseCase)
     {
         _getAllFilesUseCase = getAllFilesUseCase;
         _fileGetContentUseCase = fileGetContentUseCase;
+        _fileDeleteUseCase = fileDeleteUseCase;
     }
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -42,8 +45,9 @@ public partial class Files : ComponentBase
         await JsRuntime.InvokeVoidAsync("downloadFile", file.Name, file.Content);
     }
 
-    private void DeleteFile(int fileId)
+    private async Task DeleteFile(int fileId)
     {
+        await _fileDeleteUseCase.ExecuteAsync(fileId);
         _filesList = _filesList.Where(x => x.Id != fileId);
         StateHasChanged();
     }

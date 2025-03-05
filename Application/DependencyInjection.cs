@@ -18,6 +18,7 @@ public static class DependencyInjection
         services.AddScoped<IUploadDocumentUseCase, UploadDocumentUseCase>();
         services.AddScoped<IGetAllFilesUseCase, GetAllFilesUseCase>();
         services.AddScoped<IFileGetContentUseCase, FileGetContentUseCase>();
+        services.AddScoped<IFileDeleteUseCase, FileDeleteUseCase>();
         return services;
     }
 }

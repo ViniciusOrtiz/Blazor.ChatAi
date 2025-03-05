@@ -29,6 +29,7 @@ namespace Data.Repositories.Common
         {
             await _dbContext.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
+            _dbContext.Entry(entity).State = EntityState.Detached;
             return entity;
         }
 
@@ -36,6 +37,7 @@ namespace Data.Repositories.Common
         {
             _dbContext.Remove(entity);
             await _dbContext.SaveChangesAsync();
+            _dbContext.Entry(entity).State = EntityState.Detached;
             return entity;
         }
 

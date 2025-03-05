@@ -16,7 +16,7 @@
         @foreach (var msg in Messages)
         {
             <div class="flex @(@msg.IsUser ? "justify-end" : "justify-start")">
-                <div class="p-4 rounded-xl text-black shadow-md max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl"
+                <div class="p-4 rounded-xl text-white shadow-md max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl"
                      style="background-color: @(msg.IsUser ? "#4F46E5" : "#9333EA")">
                     <span>@((MarkupString)msg.Text.Replace("\n", "<br />"))</span>
                 </div>

@@ -10,7 +10,8 @@ public sealed class OpenAiGateway : IAiGateway
     private readonly OpenAIClient _openAiClient;
     private readonly IDocumentsTool _documentsTool;
 
-    public OpenAiGateway(OpenAIClient openAiClient,
+    public OpenAiGateway(
+        OpenAIClient openAiClient,
         IDocumentsTool documentsTool)
     {
         _openAiClient = openAiClient;

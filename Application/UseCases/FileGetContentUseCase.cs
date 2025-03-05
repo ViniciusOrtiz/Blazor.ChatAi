@@ -1,4 +1,5 @@
 ﻿using Application.Contracts.Repositories;
+using Application.Contracts.Services;
 using Application.Contracts.UseCases;
 using Application.Models.Dtos.Files;
 
@@ -7,11 +8,14 @@ namespace Application.UseCases;
 public class FileGetContentUseCase : IFileGetContentUseCase
 {
     private readonly IDocumentRepository _documentRepository;
+    private readonly ISecurityService _securityService;
 
     public FileGetContentUseCase(
-        IDocumentRepository documentRepository)
+        IDocumentRepository documentRepository,
+        ISecurityService securityService)
     {
         _documentRepository = documentRepository;
+        _securityService = securityService;
     }
     
     /// <summary>
@@ -30,7 +34,7 @@ public class FileGetContentUseCase : IFileGetContentUseCase
         return new FileContentOutputDto
         {
             Name = document.Name,
-            Content = Convert.ToBase64String(document.FileContent)
+            Content = Convert.ToBase64String(_securityService.DecryptBytes(document.FileContent))
         };
     }
 }

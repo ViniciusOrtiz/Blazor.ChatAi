@@ -1,4 +1,5 @@
 ﻿using Application.Models.Dtos.SecurityService;
+using System.IO;
 
 namespace Application.Contracts.Services
 {
@@ -9,5 +10,7 @@ namespace Application.Contracts.Services
         string DecryptText(string encryptedText);
         Stream EncryptStream(Stream inputStream);
         Stream DecryptStream(Stream inputStream);
+        byte[] EncryptBytes(byte[] plainBytes);
+        byte[] DecryptBytes(byte[] encryptedBytes);
     }
 }

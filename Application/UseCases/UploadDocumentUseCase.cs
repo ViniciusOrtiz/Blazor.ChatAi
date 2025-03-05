@@ -16,17 +16,20 @@ public sealed class UploadDocumentUseCase : IUploadDocumentUseCase
     private readonly IDocumentRepository _documentRepository;
     private readonly IAiGateway _aiGateway;
     private readonly IDocumentPresenter _documentPresenter;
+    private readonly ISecurityService _securityService;
 
     public UploadDocumentUseCase(
         IFileService fileService,
         IDocumentRepository documentRepository,
         IAiGateway aiGateway,
-        IDocumentPresenter documentPresenter)
+        IDocumentPresenter documentPresenter,
+        ISecurityService securityService)
     {
         _fileService = fileService;
         _documentRepository = documentRepository;
         _aiGateway = aiGateway;
         _documentPresenter = documentPresenter;
+        _securityService = securityService;
     }
 
     /// <summary>
@@ -50,7 +53,7 @@ public sealed class UploadDocumentUseCase : IUploadDocumentUseCase
             throw new Exception("The file could not be read. Try another file.");
 
         var embedding = await _aiGateway.GenerateEmbedding(text);
-        var entity = new DocumentEntity(fileName, text, embedding, fileSize, fileContent);
+        var entity = new DocumentEntity(fileName, _securityService.EncryptText(text), embedding, fileSize, _securityService.EncryptBytes(fileContent));
 
         await _documentRepository.CreateAsync(entity);
 

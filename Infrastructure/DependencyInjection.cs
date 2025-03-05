@@ -18,7 +18,10 @@ public static class DependencyInjection
     {
         var appSettingsService = services.BuildServiceProvider().GetService<IAppSettings>()!;
         
-        services.AddSingleton(new OpenAIClient(appSettingsService.OpenAiSettings.ApiKey));
+        var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY") 
+                     ?? appSettingsService.OpenAiSettings.ApiKey;
+
+        services.AddSingleton(new OpenAIClient(apiKey));
 
         services.AddScoped<IAiGateway, OpenAiGateway>();
         services.AddScoped<IDocumentsTool, DocumentsTool>();

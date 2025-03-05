@@ -17,7 +17,7 @@
             <tr class="hover:bg-gray-100 transition">
                 <td class="p-3 border">@file.Name</td>
                 <td class="p-3 border">@file.Size.ToString("N2")</td>
-                <td class="p-3 border">@file.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td class="p-3 border">@file.CreatedAt.ToString("dd/MM/yyyy HH:mm:ss")</td>
                 <td class="p-3 border text-center">
                     <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600"
                             @onclick="() => DownloadFile(file.Id)">

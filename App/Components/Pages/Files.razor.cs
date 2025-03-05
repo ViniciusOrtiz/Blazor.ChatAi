@@ -1,12 +1,26 @@
-﻿using Application.Models.Files;
+﻿using Application.Contracts.UseCases;
+using Application.Models.Files;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace App.Components.Pages;
 
 public partial class Files : ComponentBase
 {
-    private List<DocumentModel> _filesList = new();
+    private readonly IGetAllFilesUseCase _getAllFilesUseCase;
+    private readonly IFileGetContentUseCase _fileGetContentUseCase;
+    private IEnumerable<DocumentModel> _filesList = [];
 
+    [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
+
+    public Files(
+        IGetAllFilesUseCase getAllFilesUseCase,
+        IFileGetContentUseCase fileGetContentUseCase)
+    {
+        _getAllFilesUseCase = getAllFilesUseCase;
+        _fileGetContentUseCase = fileGetContentUseCase;
+    }
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender) // Runs only after the first render
@@ -18,23 +32,19 @@ public partial class Files : ComponentBase
 
     private async Task GetFiles()
     {
-        await Task.Delay(2000); // Simulate API delay
-        _filesList =
-        [
-            new DocumentModel { Id = 1, Name = "Report.pdf", Size = 1234.56, CreatedAt = DateTime.Now.AddDays(-2) },
-            new DocumentModel { Id = 2, Name = "Presentation.pptx", Size = 789.12, CreatedAt = DateTime.Now.AddDays(-1) },
-            new DocumentModel { Id = 3, Name = "Invoice.xlsx", Size = 456.78, CreatedAt = DateTime.Now }
-        ];
+        _filesList = await _getAllFilesUseCase.ExecuteAsync();
     }
     
-    private void DownloadFile(int fileId)
+    private async Task DownloadFile(int fileId)
     {
-        // Logic for downloading the file (Implementation depends on API or backend storage)
-        Console.WriteLine($"Downloading file with ID: {fileId}");
+        var file = await _fileGetContentUseCase.ExecuteAsync(fileId);
+        
+        await JsRuntime.InvokeVoidAsync("downloadFile", file.Name, file.Content);
     }
 
     private void DeleteFile(int fileId)
     {
-        _filesList.RemoveAll(f => f.Id == fileId);
+        _filesList = _filesList.Where(x => x.Id != fileId);
+        StateHasChanged();
     }
 }

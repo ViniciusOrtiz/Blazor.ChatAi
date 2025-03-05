@@ -22,7 +22,7 @@ public partial class Home : ComponentBase
     };
 
     private string UserInput { get; set; } = string.Empty;
-    private bool IsLoading { get; set; } = false;
+    private bool IsLoading { get; set; }
 
     /// <summary>
     /// Sends the user input message and generates a mock AI response. Updates the message list and UI state.

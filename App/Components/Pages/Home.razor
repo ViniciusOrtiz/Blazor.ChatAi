@@ -1,0 +1,59 @@
+﻿@page "/"
+
+<div class="flex flex-col h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="bg-gradient-to-r text-black text-center p-5 text-2xl font-semibold shadow-md">
+        AI Chat 🤖
+    </header>
+
+    <!-- Chat Area -->
+    <div id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+        @if (Messages.Count == 0)
+        {
+            <p class="text-gray-500 text-center text-lg">Start the conversation...</p>
+        }
+
+        @foreach (var msg in Messages)
+        {
+            <div class="flex @msg.Alignment">
+                <div class="p-4 rounded-xl text-black shadow-md max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl"
+                     style="background-color: @(msg.IsUser ? "#4F46E5" : "#9333EA")">
+                    <span>@((MarkupString)msg.Text.Replace("\n", "<br />"))</span>
+                </div>
+            </div>
+        }
+
+        <!-- Loading indicator -->
+        @if (IsLoading)
+        {
+            <div class="text-center mt-4">
+                <span class="text-gray-600 animate-pulse text-lg">Processing...</span>
+            </div>
+        }
+    </div>
+
+    <!-- Input and File Upload -->
+    <div class="bg-white p-4 border-t shadow-md flex flex-col space-y-4">
+        <!-- Custom File Upload -->
+        <div class="relative flex justify-center">
+            <label for="file-upload"
+                   class="cursor-pointer bg-indigo-600 text-black px-5 py-2 rounded-lg shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-all duration-300">
+                📁 Choose a file
+            </label>
+            <InputFile disabled="@IsLoading" id="file-upload" OnChange="OnFileUpload"
+                       class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+        </div>
+
+        <!-- Message Input -->
+        <div class="flex items-center space-x-3">
+            <input disabled="@IsLoading" @bind="UserInput" @bind:event="oninput"
+                   class="flex-1 p-3 border rounded-lg shadow-sm focus:ring focus:ring-indigo-300 focus:outline-none text-lg"
+                   placeholder="Type your message..." />
+            <button @onclick="SendMessage"
+                    class="bg-indigo-600 text-black px-5 py-2 rounded-lg shadow-md hover:bg-indigo-700 hover:shadow-xl transition-all duration-300 disabled:opacity-50"
+                    disabled="@IsLoading">
+                @(IsLoading ? "Sending..." : "Send")
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,7 @@
 ﻿using Application.Contracts.Settings;
+using Application.Contracts.UseCases;
 using Application.Models.Settings;
+using Application.UseCases;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +14,8 @@ public static class DependencyInjection
         var appSettings = AppSettings.FromConfiguration(configuration);
         services.AddSingleton<IAppSettings>(appSettings);
 
+        services.AddScoped<IAiAskQuestionUseCase, AiAskQuestionUseCase>();
+        services.AddScoped<IUploadDocumentUseCase, UploadDocumentUseCase>();
         return services;
     }
 }

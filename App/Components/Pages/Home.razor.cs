@@ -1,19 +1,15 @@
-﻿using Application.Models.Dtos.Message;
+﻿using Application.Contracts.UseCases;
+using Application.Models.Dtos.Message;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
-using Application.Contracts.Gateways;
-using Application.Contracts.Repositories;
-using Application.Contracts.Services;
-using Domain.Entities;
 
 namespace App.Components.Pages;
 
 public partial class Home : ComponentBase
 {
-    [Inject] private IAiGateway AiGateway { get; set; } = null!;
-    [Inject] private IFileService FileService { get; set; } = null!;
-    [Inject] private IDocumentRepository DocumentRepository { get; set; } = null!;
+    [Inject] private IUploadDocumentUseCase UploadDocumentUseCase { get; set; } = null!;
+    [Inject] private IAiAskQuestionUseCase AiAskQuestionUseCase { get; set; } = null!;
     [Inject] private IJSRuntime JsRuntime { get; set; } = null!;
 
     private List<MessageInputDto> Messages { get; set; } = new()
@@ -47,7 +43,7 @@ public partial class Home : ComponentBase
 
         try
         {
-            var response = await AiGateway.GetAnswerFromAI(UserInput);
+            var response = await AiAskQuestionUseCase.ExecuteAsync(UserInput);
             Messages.Add(new MessageInputDto
             {
                 Text = response,
@@ -87,14 +83,7 @@ public partial class Home : ComponentBase
             var file = e.File;
             var fileSize = file.Size;
 
-            var text = await FileService.ExtractTextFromFileAsync(file);
-            if (string.IsNullOrWhiteSpace(text))
-                return;
-
-            var embedding = await AiGateway.GenerateEmbedding(text);
-            var entity = new DocumentEntity(text, embedding);
-
-            await DocumentRepository.CreateAsync(entity);
+            await UploadDocumentUseCase.ExecuteAsync(file);
 
             Messages.Add(new MessageInputDto
             {

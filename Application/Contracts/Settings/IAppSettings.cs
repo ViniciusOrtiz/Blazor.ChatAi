@@ -7,5 +7,6 @@ namespace Application.Contracts.Settings
         public ConnectionStringSettings ConnectionStringSettings { get; }
         public ConfigurationsSettings ConfigurationsSettings { get; }
         public OpenAiSettings OpenAiSettings { get; }
+        public SecuritySettings SecuritySettings { get; }
     }
 }

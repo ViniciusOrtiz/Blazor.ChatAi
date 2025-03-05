@@ -23,6 +23,7 @@ public static class DependencyInjection
         services.AddScoped<IAiGateway, OpenAiGateway>();
         services.AddScoped<IDocumentsTool, DocumentsTool>();
         services.AddScoped<IFileService, FileService>();
+        services.AddScoped<ISecurityService, SecurityService>();
         services.AddScoped<IDocumentPresenter, DocumentPresenter>();
         return services;
     }

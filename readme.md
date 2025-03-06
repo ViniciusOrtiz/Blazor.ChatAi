@@ -193,6 +193,13 @@ Run the application and its infrastructure components (e.g., PostgreSQL) in a co
 
 ---
 
+🎥 **Demo:** 
+
+![Demo](Assets/Demo/Demo.gif)
+
+
+---
+
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.

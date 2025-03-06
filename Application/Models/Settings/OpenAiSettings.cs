@@ -7,7 +7,7 @@ public class OpenAiSettings
     public OpenAiSettings(string apiKey)
     {
         var environmentApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
-        if (string.IsNullOrWhiteSpace(environmentApiKey))
+        if (!string.IsNullOrWhiteSpace(environmentApiKey))
         {
             // try to get the connection string from environment variables
             apiKey = environmentApiKey;

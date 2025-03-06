@@ -2,7 +2,8 @@ version: '3.8'
 
 services:
   api:
-    image: ${DOCKER_REGISTRY-}api
+    container_name: blazor-app
+    image: blazor-api
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -23,7 +24,7 @@ services:
 
   psql:
     image: postgres:latest
-    container_name: psql-dev
+    container_name: blazor-psql
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${PGSQL_DATABASE}

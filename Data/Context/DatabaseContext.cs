@@ -18,7 +18,6 @@ namespace Data.Context
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             ChangeEntries<int>();
-            ChangeEntries<Guid>();
 
             return base.SaveChangesAsync(cancellationToken);
         }
@@ -26,7 +25,7 @@ namespace Data.Context
         private void ChangeEntries<TKey>()
         {
             foreach (var entry in base.ChangeTracker.Entries<BaseEntity<TKey>>()
-                .Where(q => q.State == EntityState.Added || q.State == EntityState.Modified))
+                .Where(q => q.State is EntityState.Added or EntityState.Modified))
             {
                 entry.Entity.UpdatedAt = DateTime.Now;
                 if (entry.State == EntityState.Added)
@@ -42,7 +41,7 @@ namespace Data.Context
                 {
                     var currentValue = (DateTime?)property.GetValue(entry.Entity);
 
-                    if (currentValue.HasValue && currentValue.Value.Kind == DateTimeKind.Local)
+                    if (currentValue is { Kind: DateTimeKind.Local })
                     {
                         property.SetValue(entry.Entity, currentValue.Value.ToUniversalTime());
                     }

@@ -33,7 +33,7 @@ namespace Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -41,6 +41,18 @@ namespace Data.Migrations
                     b.PrimitiveCollection<float[]>("Embedding")
                         .IsRequired()
                         .HasColumnType("real[]");
+
+                    b.Property<byte[]>("FileContent")
+                        .IsRequired()
+                        .HasColumnType("BYTEA");
+
+                    b.Property<long>("FileSizeInBytes")
+                        .HasColumnType("BIGINT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");

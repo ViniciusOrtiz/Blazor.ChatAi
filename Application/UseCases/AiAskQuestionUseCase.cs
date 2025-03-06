@@ -3,7 +3,7 @@ using Application.Contracts.UseCases;
 
 namespace Application.UseCases;
 
-public class AiAskQuestionUseCase : IAiAskQuestionUseCase
+public sealed class AiAskQuestionUseCase : IAiAskQuestionUseCase
 {
     private readonly IAiGateway _aiGateway;
 
@@ -12,7 +12,12 @@ public class AiAskQuestionUseCase : IAiAskQuestionUseCase
     {
         _aiGateway = aiGateway;
     }
-    
+
+    /// <summary>
+    /// Executes the process of asking a question to an AI system and retrieves its response.
+    /// </summary>
+    /// <param name="question">The question string to be sent to the AI system for processing.</param>
+    /// <returns>A task representing the asynchronous operation, which returns the AI's response as a string.</returns>
     public async Task<string> ExecuteAsync(string question)
     {
         var response = await _aiGateway.GetAnswerFromAI(question);

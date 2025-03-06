@@ -2,7 +2,7 @@
 
 <div class="flex flex-col h-screen bg-gray-50">
     <!-- Header -->
-    <header class="bg-gradient-to-r text-black text-center p-5 text-2xl font-semibold shadow-md">
+    <header class="bg-gradient-to-r text-black text-center p-4 text-2xl font-semibold shadow-md">
         AI Chat 🤖
     </header>
 
@@ -15,8 +15,8 @@
 
         @foreach (var msg in Messages)
         {
-            <div class="flex @msg.Alignment">
-                <div class="p-4 rounded-xl text-black shadow-md max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl"
+            <div class="flex @(@msg.IsUser ? "justify-end" : "justify-start")">
+                <div class="p-4 rounded-xl text-white shadow-md max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl"
                      style="background-color: @(msg.IsUser ? "#4F46E5" : "#9333EA")">
                     <span>@((MarkupString)msg.Text.Replace("\n", "<br />"))</span>
                 </div>
@@ -33,12 +33,12 @@
     </div>
 
     <!-- Input and File Upload -->
-    <div class="bg-white p-4 border-t shadow-md flex flex-col space-y-4">
+    <div class="bg-white p-5 border-t shadow-md flex flex-col space-y-4">
         <!-- Custom File Upload -->
         <div class="relative flex justify-center">
             <label for="file-upload"
                    class="cursor-pointer bg-indigo-600 text-black px-5 py-2 rounded-lg shadow-lg hover:bg-indigo-700 hover:shadow-xl transition-all duration-300">
-                📁 Choose a file
+                📁 Upload a file
             </label>
             <InputFile disabled="@IsLoading" id="file-upload" OnChange="OnFileUpload"
                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />

@@ -6,10 +6,11 @@
 
         public ConnectionStringSettings(string defaultConnection)
         {
-            if (string.IsNullOrWhiteSpace(defaultConnection))
+            var environmentConnection = Environment.GetEnvironmentVariable("PGSQL_CONNECTION_STRING");
+            if (!string.IsNullOrWhiteSpace(environmentConnection))
             {
                 // try to get the connection string from environment variables
-                defaultConnection = Environment.GetEnvironmentVariable("PGSQL_CONNECTION_STRING");
+                defaultConnection = environmentConnection;
             }
             
             if (string.IsNullOrWhiteSpace(defaultConnection))

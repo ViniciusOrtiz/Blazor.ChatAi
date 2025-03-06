@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8000
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - PGSQL_CONNECTION_STRING=${PGSQL_CONNECTION_STRING}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    depends_on:
+      - psql
+    networks:
+      - app-network
+
+  psql:
+    image: postgres:latest
+    container_name: psql-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${PGSQL_DATABASE}
+      POSTGRES_USER: ${PGSQL_USER}
+      POSTGRES_PASSWORD: ${PGSQL_PASSWORD}
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

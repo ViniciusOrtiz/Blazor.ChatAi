@@ -6,10 +6,11 @@ public class OpenAiSettings
 
     public OpenAiSettings(string apiKey)
     {
-        if (string.IsNullOrWhiteSpace(apiKey))
+        var environmentApiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+        if (string.IsNullOrWhiteSpace(environmentApiKey))
         {
-            // try to get the API key from environment variables
-            apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+            // try to get the connection string from environment variables
+            apiKey = environmentApiKey;
         }
         
         if (string.IsNullOrWhiteSpace(apiKey))
